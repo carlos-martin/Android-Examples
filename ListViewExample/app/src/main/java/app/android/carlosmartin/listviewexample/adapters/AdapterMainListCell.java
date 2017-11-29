@@ -1,10 +1,9 @@
 package app.android.carlosmartin.listviewexample.adapters;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,26 +14,36 @@ import app.android.carlosmartin.listviewexample.R;
  * Created by carlos.martin on 28/11/2017.
  */
 
-public class AdapterMainListCell  extends BaseAdapter {
+public class AdapterMainListCell  extends RecyclerView.Adapter<AdapterMainListCell.ViewHolder> {
 
-    private Context context;
-    private int layout;
     private List<String> listContent;
+    private int layout;
+    private OnItemClickListener itemClickListener;
 
+    /*
     public AdapterMainListCell(Context context, int layout, List<String> listContent) {
         this.context = context;
         this.layout = layout;
         this.listContent = listContent;
     }
+     */
 
-    @Override
-    public int getCount() {
-        return this.listContent.size();
+    public AdapterMainListCell(List<String> listContent, int layout, OnItemClickListener listener) {
+        this.listContent = listContent;
+        this.layout = layout;
+        this.itemClickListener = listener;
     }
 
     @Override
-    public Object getItem(int position) {
-        return this.listContent.get(position);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.bind(this.listContent.get(position), this.itemClickListener);
     }
 
     @Override
@@ -43,29 +52,29 @@ public class AdapterMainListCell  extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public int getItemCount() { return this.listContent.size(); }
 
-        // View Holder Pattern
-        ViewHolder holder;
-        if (convertView == null) {
-            LayoutInflater layoutInflater = LayoutInflater.from(this.context);
-            convertView = layoutInflater.inflate(R.layout.list_item, null);
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView contentTextView;
 
-            holder = new ViewHolder();
-            holder.contentTextView = convertView.findViewById(R.id.textViewCell);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        public ViewHolder(View view) {
+            super(view);
+            this.contentTextView = view.findViewById(R.id.textViewCell);
         }
 
-        String currentContent = this.listContent.get(position);
+        public void bind(final String content, final OnItemClickListener listener) {
+            this.contentTextView.setText(content);
 
-        holder.contentTextView.setText(currentContent);
-
-        return convertView;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(content, getAdapterPosition());
+                }
+            });
+        }
     }
 
-    static class ViewHolder {
-        private TextView contentTextView;
+    public interface OnItemClickListener {
+        void onItemClick(String content, int position);
     }
 }

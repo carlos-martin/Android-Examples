@@ -3,6 +3,7 @@ package app.android.carlosmartin.uisignup.onboard;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import app.android.carlosmartin.uisignup.R;
+import app.android.carlosmartin.uisignup.helpers.Tools;
 
 public class SignupEmailActivity extends AppCompatActivity {
 
@@ -66,12 +68,13 @@ public class SignupEmailActivity extends AppCompatActivity {
     }
 
     private void goToSignUpOfficeActivity() {
-        this.userEmail = this.editTextEmail.getText().toString();
 
-        if (this.userEmail.isEmpty()) {
+        if (!Tools.isValidEmail(this.editTextEmail.getText())) {
             Toast.makeText(SignupEmailActivity.this,
-                    "Email text field cannot be empty", Toast.LENGTH_LONG).show();
+                    "Your email must have one of this two domains: sigma.se or sigmatechnology.se",
+                    Toast.LENGTH_LONG).show();
         } else {
+            this.userEmail = this.editTextEmail.getText().toString();
             Intent intentToOffice = new Intent(SignupEmailActivity.this,
                     SignupOfficesActivity.class);
             intentToOffice.putExtra("user_name",  this.userName);

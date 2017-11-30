@@ -71,10 +71,18 @@ public class AdapterMainListCell  extends RecyclerView.Adapter<AdapterMainListCe
                     listener.onItemClick(content, getAdapterPosition());
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    return listener.onItemLongClick(content, getAdapterPosition());
+                }
+            });
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(String content, int position);
+        boolean onItemLongClick(String content, int position);
     }
 }

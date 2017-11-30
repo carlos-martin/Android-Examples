@@ -34,7 +34,7 @@ public class SignupEmailActivity extends AppCompatActivity {
     private void initUI() {
         setTitle("E-mail");
 
-        this.textViewEmail = findViewById(R.id.textViewOffice);
+        this.textViewEmail = findViewById(R.id.textViewEmail);
         this.textViewEmail.setText("WHAT'S YOUR SIGMA E-MAIL?");
 
         this.editTextEmail = findViewById(R.id.editTextEmail);

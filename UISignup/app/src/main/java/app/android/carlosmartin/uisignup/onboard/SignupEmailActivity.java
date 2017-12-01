@@ -3,10 +3,11 @@ package app.android.carlosmartin.uisignup.onboard;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,22 @@ public class SignupEmailActivity extends AppCompatActivity {
 
         this.editTextEmail = findViewById(R.id.editTextEmail);
         this.editTextEmail.setHint("Enter your email...");
+        this.editTextEmail.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            goToSignUpOfficeActivity();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         //Fetching data from the intent
         Bundle bundle = getIntent().getExtras();
@@ -52,7 +69,7 @@ public class SignupEmailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.action_bar_menu_signup, menu);
+        menuInflater.inflate(R.menu.action_bar_menu_next, menu);
         return true;
     }
 
@@ -69,17 +86,24 @@ public class SignupEmailActivity extends AppCompatActivity {
 
     private void goToSignUpOfficeActivity() {
 
-        if (!Tools.isValidEmail(this.editTextEmail.getText())) {
-            Toast.makeText(SignupEmailActivity.this,
-                    "Your email must have one of this two domains: sigma.se or sigmatechnology.se",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            this.userEmail = this.editTextEmail.getText().toString();
+        this.userEmail = this.editTextEmail.getText().toString();
+
+        if (Tools.isValidEmail(this.userEmail)) {
+
             Intent intentToOffice = new Intent(SignupEmailActivity.this,
                     SignupOfficesActivity.class);
             intentToOffice.putExtra("user_name",  this.userName);
             intentToOffice.putExtra("user_email", this.userEmail);
             startActivity(intentToOffice);
+
+        } else {
+            this.userEmail = null;
+
+            String error_message = "Your email must have one of this two domains: sigma.se or " +
+                    "sigmatechnology.se";
+
+            Toast.makeText(SignupEmailActivity.this,
+                    error_message , Toast.LENGTH_LONG).show();
         }
     }
 }

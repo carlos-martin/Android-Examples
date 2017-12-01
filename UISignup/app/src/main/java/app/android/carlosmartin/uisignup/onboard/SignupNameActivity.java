@@ -3,9 +3,11 @@ package app.android.carlosmartin.uisignup.onboard;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,22 @@ public class SignupNameActivity extends AppCompatActivity {
 
         this.editTextName = findViewById(R.id.editTextName);
         this.editTextName.setHint("Enter your name...");
+        this.editTextName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            goToSignUpEmailActivity();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     //MARK: - Action bar menu
@@ -43,7 +61,7 @@ public class SignupNameActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.action_bar_menu_signup, menu);
+        menuInflater.inflate(R.menu.action_bar_menu_next, menu);
         return true;
     }
 

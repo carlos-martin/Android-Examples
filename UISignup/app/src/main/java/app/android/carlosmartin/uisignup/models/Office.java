@@ -21,4 +21,9 @@ public class Office implements Comparable<Office>, Serializable {
     public int compareTo(@NonNull Office office) {
         return this.id.compareTo(office.id);
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

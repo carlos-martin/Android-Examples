@@ -2,13 +2,18 @@ package app.android.carlosmartin.uisignup.onboard;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import app.android.carlosmartin.uisignup.R;
+import app.android.carlosmartin.uisignup.helpers.Tools;
 import app.android.carlosmartin.uisignup.models.Office;
 
 public class SignupPasswordActivity extends AppCompatActivity {
@@ -38,6 +43,22 @@ public class SignupPasswordActivity extends AppCompatActivity {
 
         this.editTextPassword = findViewById(R.id.editTextPassword);
         this.editTextPassword.setHint("Enter password...");
+        this.editTextPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            createUserAccount();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         //Fetching data from the intent
         Bundle bundle = getIntent().getExtras();
@@ -46,12 +67,16 @@ public class SignupPasswordActivity extends AppCompatActivity {
             this.userEmail = bundle.getString("user_email");
             this.userOffice = (Office) bundle.getSerializable("user_office");
         }
+
+        Log.d("{{userName}}:", this.userName);
+        Log.d("{{userEmail}}:", this.userEmail);
+        Log.d("{{userOffice}}:", this.userOffice.toString());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.action_bar_menu_signup, menu);
+        menuInflater.inflate(R.menu.action_bar_menu_done, menu);
         return true;
     }
 
@@ -68,5 +93,24 @@ public class SignupPasswordActivity extends AppCompatActivity {
     }
 
     private void createUserAccount() {
+        this.userPassword = this.editTextPassword.getText().toString();
+        if (Tools.isValidPassword(this.userPassword)) {
+
+            String message = "GOOD PASSWORD!";
+
+            Toast.makeText(SignupPasswordActivity.this,
+                    message, Toast.LENGTH_LONG).show();
+
+        } else {
+            this.userPassword = null;
+
+            String error_message = "The password must be a minimum of 8 characters and must " +
+                    "contain at least one uppercase, one lowercase, one number and one " +
+                    "special character.";
+
+            Toast.makeText(SignupPasswordActivity.this,
+                    error_message, Toast.LENGTH_LONG).show();
+        }
+
     }
 }

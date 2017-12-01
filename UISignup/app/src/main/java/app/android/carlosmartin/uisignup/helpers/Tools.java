@@ -4,12 +4,15 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by carlos.martin on 30/11/2017.
  */
 
 public class Tools {
-    public final static boolean isValidEmail(CharSequence target) {
+    public static boolean isValidEmail(CharSequence target) {
         boolean valid = (!TextUtils.isEmpty(target) &&
                 Patterns.EMAIL_ADDRESS.matcher(target).matches());
 
@@ -21,5 +24,16 @@ public class Tools {
         }
 
         return valid;
+    }
+
+    public static boolean isValidPassword(final String password) {
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+        //"^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$"
+        //"^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\\\d$@$#!%*?&]{8,}$"
+        Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+        Matcher matcher = pattern.matcher(password);
+
+        return matcher.matches();
+
     }
 }

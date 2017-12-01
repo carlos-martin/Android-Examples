@@ -1,4 +1,4 @@
-package app.android.carlosmartin.uisignup.onboard;
+package app.android.carlosmartin.uisignup.activities.onboard;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

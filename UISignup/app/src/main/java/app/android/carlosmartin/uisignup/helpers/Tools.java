@@ -28,8 +28,6 @@ public class Tools {
 
     public static boolean isValidPassword(final String password) {
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
-        //"^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$"
-        //"^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\\\d$@$#!%*?&]{8,}$"
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         Matcher matcher = pattern.matcher(password);
 

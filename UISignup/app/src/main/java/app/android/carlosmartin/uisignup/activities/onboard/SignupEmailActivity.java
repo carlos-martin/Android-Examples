@@ -1,4 +1,4 @@
-package app.android.carlosmartin.uisignup.onboard;
+package app.android.carlosmartin.uisignup.activities.onboard;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

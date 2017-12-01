@@ -1,4 +1,4 @@
-package app.android.carlosmartin.uisignup;
+package app.android.carlosmartin.uisignup.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,8 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import app.android.carlosmartin.uisignup.onboard.LoginActivity;
-import app.android.carlosmartin.uisignup.onboard.SignupNameActivity;
+import app.android.carlosmartin.uisignup.R;
+import app.android.carlosmartin.uisignup.activities.onboard.LoginActivity;
+import app.android.carlosmartin.uisignup.activities.onboard.SignupNameActivity;
 
 public class MainActivity extends AppCompatActivity {
 

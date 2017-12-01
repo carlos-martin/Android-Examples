@@ -1,4 +1,4 @@
-package app.android.carlosmartin.uisignup.onboard.adapters;
+package app.android.carlosmartin.uisignup.adapters.onboard;
 
 import android.content.Context;
 import android.view.LayoutInflater;
